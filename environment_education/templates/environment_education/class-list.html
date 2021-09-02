@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% block title %}- List of Classes {% endblock %}
+
+{% block content %}
+    {% if class_list %}
+        <div class="card-deck">
+            {% for class in class_list %}
+                <div class="card">
+                    <div class="card-body">
+                        <a style="font-size: 2rem" href="{% url 'environment_education:class_detail' class.id %}">{{ class.classs_num }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No classes are available.</p>
+    {% endif %}
+{% endblock %}
+

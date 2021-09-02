@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}- Student Registration {% endblock %}
+
+{% block content %}
+<h2>Student Choice Lessons</h2><br>
+
+{% if user.is_authenticated %}
+<form method="post">
+    {% csrf_token %}
+    <label for="std-name">Name: </label>
+    <input name="std-name" id="std-name" type="text" value="{{ user.first_name }} {{ user.last_name }}" disabled><br>
+    <label for="std-id">Student ID: </label>
+    <input name="std-id" id="std-id" type="text" value="{{ user.studentprofile.personal_id }}" disabled><br>
+    {{ choice_forms.management_form }}
+    {{ choice_forms.as_p }}
+    <button type="submit" id="sub-button">Save Choices</button>
+</form>
+{% else %}
+<h6>Please <a href="{% url 'environment_education:login' %}">login</a> first</h6>
+{% endif %}
+{% endblock %}

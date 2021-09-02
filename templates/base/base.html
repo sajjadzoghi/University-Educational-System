@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'base/polls.css' %}">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow">
+                <a class="navbar-brand text-dark rounded-circle" style="font-size: 1.8rem" href="{% url 'environment_education:colleges' %}">MyUniversity.com</a>
+                <button class="navbar-toggler" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav topnav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'environment_education:colleges' %}">Colleges</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About MyUniversity</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'environment_education:lesson_choice' %}">Student Choice</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact us</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item" style="margin-left: 22rem">
+                            <p class="nav-link log-reg">Hello, <a href="{% url 'environment_education:lesson_choice' %}">{{ user.first_name }}!</a></p>
+                        </li>
+                        <li class="nav-item" style="margin-left: 1rem">
+                            <a class="nav-link log-reg" href="{% url 'environment_education:logout' %}">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item" style="margin-left:15rem">
+                            <a class="nav-link log-reg" href="{% url 'environment_education:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link log-reg" href="{% url 'environment_education:reg_std' %}">Register Student</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link log-reg" href="{% url 'environment_education:reg_teacher' %}">Register Teacher</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="margin-top: 6rem">
+    <div class="row">
+        <div class="col">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

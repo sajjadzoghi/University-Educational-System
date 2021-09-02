@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block title %}- {{ lesson.name }} {% endblock %}
+
+{% block content %}
+{% if classs.lessons.all %}
+<div class="card-deck">
+    {% for lesson in classs.lessons.all %}
+        <div class="card">
+            <div class="card-header">
+                <h3><b>Course: </b>{{ lesson.name }}</h3>
+                <h4><b>Teacher: </b>{{ lesson.teachers.all.0.name }}</h4>
+            </div>
+            <div class="card-body">
+                {% for student in lesson.students.all %}
+                <h6>{{ student.name }}</h6><br>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No lessons are available in this class.</p>
+{% endif %}
+{% endblock %}

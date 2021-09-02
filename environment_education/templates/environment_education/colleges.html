@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% block title %}- List of Colleges {% endblock %}
+
+{% block content %}
+    {% if colleges %}
+        <div class="card-deck">
+            {% for college in colleges %}
+                <div class="card">
+                    <div class="card-body">
+                        <a style="font-size: 2rem" href="{% url 'environment_education:class_list' college.id %}">{{ college.name }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No colleges are available.</p>
+    {% endif %}
+{% endblock %}
+
