@@ -57,9 +57,12 @@ class LessonClass(models.Model):
         unique_together = [['class_daytime', 'lesson_teacher']]
 
     def __str__(self):
-        return f'class{self.lesson_teacher}, {self.class_daytime}'
+        return f'{self.lesson_teacher}, {self.class_daytime}'
 
 
 class StudentLessons(models.Model):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='student_lessons')
     lesson_class = models.ForeignKey(LessonClass, on_delete=models.CASCADE, related_name='student_lessons')
+
+    def __str__(self):
+        return self.lesson_class

@@ -1,5 +1,6 @@
 from django import forms
 # from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -22,22 +23,22 @@ from persons.models import StudentProfile, TeacherProfile
 #         fields = ('first_name', 'last_name', 'username', 'personal_id', 'password1', 'password2', 'college', 'field')
 
 
-class UserForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email',)
+# class UserForm(UserCreationForm):
+#     class Meta:
+#         model = User
+#         fields = ('username', 'first_name', 'last_name', 'email',)
 
 
-class RegStdForm(forms.ModelForm):
+class RegStdForm(UserCreationForm):
     class Meta:
         model = StudentProfile
-        fields = ['college', 'field', 'personal_id', ]
+        fields = ['personal_id', 'mobile', 'first_name', 'last_name', 'college', 'field', ]
 
 
-class RegTeacherForm(forms.ModelForm):
+class RegTeacherForm(UserCreationForm):
     class Meta:
         model = TeacherProfile
-        fields = ['college', 'personal_id', ]
+        fields = ['personal_id', 'mobile', 'first_name', 'last_name', 'college', ]
 
     # def save(self, **kwargs):
     #     teacher = super().save(commit=False)
@@ -56,5 +57,16 @@ class LessonChoiceForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100)
+    mobile = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
+    type = forms.ChoiceField(choices=[
+        ('student', 'student'),
+        ('teacher', 'teacher'),
+    ])
+
+    def clean(self):
+        cleaned_data = self.data
+        user = authenticate(mobile=cleaned_data['mobile'], password=cleaned_data['password'])
+        if user is None:
+            raise forms.ValidationError("Sorry! User doesn't exist.")
+        return cleaned_data

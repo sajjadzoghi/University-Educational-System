@@ -7,6 +7,9 @@
 }
 
 .log-reg {
-    border: black solid 10px;
-    background-color: black;
+    border: lightgrey solid 1px;
+    border-radius: 5%;
+    background-color: #c6b55a;
+    margin-left: 5px;
+    font-weight: bold;
 }

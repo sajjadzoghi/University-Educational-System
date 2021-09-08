@@ -3,7 +3,8 @@
 {% block title %}- Student Registration {% endblock %}
 
 {% block content %}
-<h2>Student Registration</h2><br>
+{% if not user.authenticated %}
+<br><h2>Student Registration</h2><br>
 
 <form id="entry-form" enctype="multipart/form-data" method="post">
     {% csrf_token %}
@@ -11,5 +12,7 @@
     {{ student_form.as_p }}
     <button type="submit" id="sub-button">Register</button>
 </form>
+{% endif %}
+
 
 {% endblock %}

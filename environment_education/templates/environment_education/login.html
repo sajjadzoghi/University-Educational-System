@@ -3,12 +3,14 @@
 {% block title %}- Login Student {% endblock %}
 
 {% block content %}
-<h2>Student Registration</h2><br>
+<h2>Student Login</h2><br>
 
 <form id="entry-form" method="post">
     {% csrf_token %}
     {{ login_form.as_p }}
     <button type="submit" id="sub-button">Login</button>
 </form>
+<br>
+<p>Don't have an account? <a href="{% url 'environment_education:reg_std' %}">Sign up</a></p>
 
 {% endblock %}

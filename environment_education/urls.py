@@ -14,6 +14,7 @@ urlpatterns = [
     path('edit-student-profile/<int:personal_id>/', views.reg_or_edit_student, name='edit_std'),
     path('edit-student-profile/<int:personal_id>/', views.reg_or_edit_teacher, name='edit_teacher'),
     path('lesson-choice/', views.lesson_choice, name='lesson_choice'),
+    path('library/', views.library, name='library'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
 ]

@@ -3,7 +3,7 @@
 {% block title %}- Student Registration {% endblock %}
 
 {% block content %}
-<br><h2>Choose Your Courses</h2><br>
+<br><h2>Student Library</h2><br>
 
 {% if user.is_authenticated %}
 <form method="post">
@@ -14,7 +14,7 @@
     <input name="std-id" id="std-id" type="text" value="{{ user.studentprofile.personal_id }}" disabled><br>
     {{ choice_forms.management_form }}
     {{ choice_forms.as_p }}
-    <button type="submit" id="sub-button">Submit Your Courses</button>
+    <button type="submit" id="sub-button">Rent Books</button>
 </form>
 {% else %}
 <h6>Please <a href="{% url 'environment_education:login' %}">login</a> or <a href="{% url 'environment_education:reg_std' %}">Signup</a> first</h6>

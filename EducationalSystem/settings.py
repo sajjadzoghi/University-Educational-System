@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'environment_education.apps.EnvironmentEducationConfig',
     'persons.apps.PersonsConfig',
+    'core.apps.CoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -131,4 +133,12 @@ else:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# AUTH_USER_MODEL = 'environment_education.StudentProfile'
+AUTH_USER_MODEL = 'persons.User'
+
+LOGIN_URL = '/login/'
+
+# rest framework configuration
+
+REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
+}

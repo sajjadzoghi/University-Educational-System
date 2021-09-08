@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+from .models import User
 
 from .models import TeacherProfile, StudentProfile
 
@@ -8,10 +8,10 @@ from .models import TeacherProfile, StudentProfile
 # admin.site.register(StudentProfile)
 
 
-class StudentProfileInline(admin.StackedInline):
-    model = StudentProfile
-    can_delete = False
-    verbose_name_plural = 'student'
+# class StudentProfileInline(admin.StackedInline):
+#     model = StudentProfile
+#     can_delete = False
+#     verbose_name_plural = 'student'
 
 
 #
@@ -22,12 +22,12 @@ class StudentProfileInline(admin.StackedInline):
 #     verbose_name_plural = 'teacher'
 #
 #
-class UserAdmin(BaseUserAdmin):
-    inlines = (StudentProfileInline,)
-
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+# class UserAdmin(BaseUserAdmin):
+#     inlines = (StudentProfileInline,)
+#
+#
+# admin.site.unregister(User)
+admin.site.register(User)
 
 # Register your models here.
 # class LessonInline(admin.StackedInline):
