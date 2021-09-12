@@ -44,9 +44,14 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item" style="margin-left: 15rem">
                             <div class="dropdown">
-                                <p class="nav-link log-reg">Hello, <a class="dropbtn" href="#">{{ user.first_name }}!</a></p>
+                                <p class="nav-link log-reg">Hello, <a class="dropbtn">{{ user.first_name }}!</a></p>
+                                <p>{{ user.field }}</p>
                                 <div class="dropdown-content">
-                                    <a href="{% url 'environment_education:edit_std' user.id %}">Edit Your Profile</a>
+                                    {% if user.college %}
+                                    <a href="{% url 'environment_education:edit_std' %}">Edit Your Profile</a>
+                                    {% elif user.is_teacher %}
+                                    <a href="{% url 'environment_education:edit_teacher' %}">Edit Your Profile</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </li>

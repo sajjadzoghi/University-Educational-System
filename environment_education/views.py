@@ -33,11 +33,12 @@ class ClassDetailView(generic.DetailView):
     template_name = 'environment_education/class-details.html'
 
 
-def reg_or_edit_student(request, personal_id=None):
-    student_form = RegStdForm()
-    if personal_id:
-        student_form = RegStdForm(instance=get_object_or_404(StudentProfile, id=personal_id))
-    elif request.method == 'POST':
+def reg_or_edit_student(request):
+    if request.user.is_authenticated:
+        student_form = RegStdForm(instance=get_object_or_404(StudentProfile, id=request.user.id))
+    else:
+        student_form = RegStdForm()
+    if request.method == 'POST':
         student_form = RegStdForm(request.POST, request.FILES)
         if student_form.is_valid():
             std_name = f"{student_form.cleaned_data['first_name']} {student_form.cleaned_data['last_name']}"
@@ -46,11 +47,12 @@ def reg_or_edit_student(request, personal_id=None):
     return render(request, 'environment_education/reg-student.html', context={'student_form': student_form})
 
 
-def reg_or_edit_teacher(request, personal_id=None):
-    teacher_form = RegTeacherForm()
-    if personal_id:
-        teacher_form = RegTeacherForm(instance=get_object_or_404(TeacherProfile, id=personal_id))
-    elif request.method == 'POST':
+def reg_or_edit_teacher(request):
+    if request.user.is_authenticated:
+        teacher_form = RegTeacherForm(instance=get_object_or_404(TeacherProfile, id=request.user.id))
+    else:
+        teacher_form = RegTeacherForm()
+    if request.method == 'POST':
         teacher_form = RegTeacherForm(request.POST, request.FILES)
         if teacher_form.is_valid():
             teacher_name = f"{teacher_form.cleaned_data['first_name']} {teacher_form.cleaned_data['last_name']}"

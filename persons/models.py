@@ -5,6 +5,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+
 # from .managers import CustomUserManager
 
 
@@ -25,17 +27,23 @@ def generateStudentPersonalId():
     else:
         generateStudentPersonalId()
 
+
 class CustomUserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
-    def create_user(self, mobile, password, **extra_fields):
+
+    def create_user(self, mobile, password, first_name, last_name, **extra_fields):
         """
         Create and save a User with the given email and password.
         """
         if not mobile:
             raise ValueError(_('The mobile must be set'))
+        if not first_name:
+            raise ValueError(_('The first name must be set'))
+        if not last_name:
+            raise ValueError(_('The last name must be set'))
         user = self.model(mobile=mobile, **extra_fields)
         user.set_password(password)
         user.save()
@@ -62,7 +70,6 @@ class User(AbstractUser):
     mobile = models.CharField(_('mobile'), unique=True, max_length=11)
     image = models.ImageField(upload_to='persons/%Y/%m/%d', blank=True, null=True)
 
-
     USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
@@ -72,29 +79,30 @@ class User(AbstractUser):
         return f'{self.first_name} {self.last_name}'
 
 
-
 class StudentProfile(User):
-    gender_choice = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
     personal_id = models.IntegerField(unique=True, default=generateStudentPersonalId)
-    # personal_id = models.EmailField(_('Student ID'), unique=True, default=generateStudentPersonalId)
     college = models.ForeignKey('environment_education.College', on_delete=models.CASCADE)
     field = models.CharField(max_length=200)
     birthdate = models.DateField(blank=True, null=True)
-    # mobile = models.IntegerField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    # photo = models.ImageField(upload_to='students/%Y/%m/%d', blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=gender_choice, default='Male', blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'Students'
+        verbose_name = 'Student'
 
-    # def __str__(self):
-    #     return f'{self.username}, {self.first_name, self.last_name}'
     @property
     def get_user(self):
         return self
 
+
+class TeacherProfile(User):
+    personal_id = models.IntegerField(unique=True, default=generateTeacherPersonalId)
+    college = models.ForeignKey('environment_education.College', on_delete=models.CASCADE)
+    address = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Teachers'
+        verbose_name = 'Teacher'
 # class StudentProfile(models.Model):
 #     gender_choice = (
 #         ('M', 'Male'),
@@ -116,23 +124,3 @@ class StudentProfile(User):
 #
 #     def __str__(self):
 #         return f'{self.user.first_name} {self.user.last_name}
-
-
-class TeacherProfile(User):
-    gender_choice = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
-    personal_id = models.IntegerField(unique=True, default=generateTeacherPersonalId)
-    college = models.ForeignKey('environment_education.College', on_delete=models.CASCADE)
-    # mobile = models.IntegerField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=gender_choice, default='Male', blank=True, null=True)
-    # photo = models.ImageField(upload_to='teachers/%Y/%m/%d', blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = 'Teachers'
-        verbose_name = 'Teacher'
-
-    # def __str__(self):
-        # return f'{self.user.first_name} {self.user.last_name}'

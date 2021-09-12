@@ -34,7 +34,7 @@ class LessonTeacher(models.Model):
     exam_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f'lesson:{self.lesson}, teacher:{self.teacher}, {self.capacity}'
+        return f'lesson: {self.lesson}, teacher: {self.teacher}, capacity: {self.capacity}'
 
 
 class ClassDayTime(models.Model):

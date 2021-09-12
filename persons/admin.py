@@ -28,6 +28,8 @@ from .models import TeacherProfile, StudentProfile
 #
 # admin.site.unregister(User)
 admin.site.register(User)
+admin.site.register(StudentProfile)
+admin.site.register(TeacherProfile)
 
 # Register your models here.
 # class LessonInline(admin.StackedInline):
